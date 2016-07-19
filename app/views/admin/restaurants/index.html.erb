@@ -22,7 +22,7 @@
         <% restaurant.properties.each do |key, value| %>
           <p><%= key %> : <%= value %></p>
         <% end %></td>
-        <td><%= link_to "Edit", admin_restaurant_path(restaurant), :class => 'btn btn-warning btn-sm' %></td>
+        <td><%= link_to "Show in FrontEnd", "/#{restaurant.id}", :class => 'btn btn-warning btn-sm' %></td>
       </tr>
     <% end %>
   </tbody>
