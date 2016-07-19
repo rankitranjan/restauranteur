@@ -1,0 +1,108 @@
+<%= form_for [:admin, @restaurant], :html => { :class => "form-horizontal restaurant" } do |f| %>
+
+  <% if @restaurant.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@restaurant.errors.count, "error") %> prohibited this restaurant from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @restaurant.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+  <div class="form-group">
+    <%= f.label :title, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :title, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:title) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :address, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :address, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:address) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :description, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :description, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:description) %>
+  </div>
+  <% if f.object.persisted? %>
+    <div class="form-group">
+      <%= f.label :properties, :class => 'control-label col-lg-2' %>
+      <div class="col-lg-10">
+        <%= f.text_field :properties, :class => 'form-control' %>
+      </div>
+      <%=f.error_span(:address) %>
+    </div>
+  <% end %>
+
+    <span class="addFields"></span><br>
+  <hr><fieldset id="buildyourform">Add New Attributes
+  </fieldset>
+  <hr>
+  <input type="button" value="Preview form" class="add" id="preview" />
+  <input type="button" value="Add a field" class="add" id="add" />
+  <br><br><br><br><br><br><br>
+  <div class="form-group">
+    <div class="col-lg-offset-2 col-lg-10">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                admin_restaurants_path, :class => 'btn btn-default' %>
+    </div>
+  </div>
+<% end %>
+
+<script>
+  $(document).ready(function() {
+    $("#add").click(function() {
+        var intId = $("#buildyourform div").length + 1;
+        var fieldWrapper = $("<div class=\"fieldwrapper\" id=\"field" + intId + "\"/>");
+        var fName = $("<input type=\"text\" class=\"fieldname\" />");
+        var fType = $("<select class=\"fieldtype\"><option value=\"checkbox\">Checked</option><option value=\"textbox\">Text</option><option value=\"textarea\">Paragraph</option></select>");
+        var removeButton = $("<input type=\"button\" class=\"remove\" value=\"-\" /><br><br>");
+        removeButton.click(function() {
+            $(this).parent().remove();
+        });
+        fieldWrapper.append(fName);
+        fieldWrapper.append(fType);
+        fieldWrapper.append(removeButton);
+        $("#buildyourform").append(fieldWrapper);
+    });
+
+
+    $("#preview").click(function() {
+        $("#yourform").remove();
+        var fieldSet = $("<fieldset id=\"yourform\"><legend></legend></fieldset>");
+        $("#buildyourform div").each(function() {
+            var id = $(this).find("input.fieldname").first().val();
+            var name = "restaurant[properties][" + $(this).find("input.fieldname").first().val();
+            var label = $("<div class=\"form-group\"><label class=\"control-label col-lg-2\" for=\"" + id + "\">" + $(this).find("input.fieldname").first().val() + "</label>");
+            var input;
+            switch ($(this).find("select.fieldtype").first().val()) {
+                case "checkbox":
+                    input = $("<input type=\"checkbox\" id=\"" + id + "_id\" name=\"" + name + "]\" /><br>");
+                    break;
+                case "textbox":
+                    input = $("<div class=\"col-lg-10\"><input type=\"text\" id=\"" + id + "_id\" name=\"" + name + "]\" class=\"form-control\"></div</div>");
+                    break;
+                case "textarea":
+                    input = $("<div class=\"col-lg-10\"><textarea id=\"" + id + "_id\" name=\"" + name + "]\" class=\"form-control\"></textarea></div</div>");
+                    break;
+            }
+            fieldSet.append(label);
+            fieldSet.append(input);
+        });
+        $(".addFields").append(fieldSet);
+    });
+});
+
+</script>

@@ -1,0 +1,37 @@
+<div ng-app="HomeCenter">
+
+	<div ng-controller="homeCtrl">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Restaurant
+                        <small>Near You</small>
+                    </h1>
+                </div>
+            </div>
+		    <div ng-repeat="restaurant in restaurants">
+                 <div class="row">
+                    <div class="col-md-4 portfolio-item">
+                        <a href="/{{restaurant.id}}">
+                            <img class="img-responsive" src="https://b.zmtcdn.com/data/pictures/2/20472/14a37a74923d15751ed71b7671e7c9b1_top_thumb_620_314.jpg?output-format=webp" alt="">
+                        </a>
+                   </div>
+                        <h3>
+                            <a href="/{{restaurant.id}}">{{restaurant.title}}</a>
+                        </h3>
+                        <p>{{restaurant.address}}</p>
+                        <p ng-repeat="(key, val) in restaurant.properties">{{key}}: {{val}}</p> <br>
+                </div><hr>
+            </div>
+		</div>
+	</div>
+</div>
+
+<style>
+    body {
+        background-image:url('http://d1a9cyuca1q7uc.cloudfront.net/hq_images/c/celeste.jpg');
+          background-size:cover;
+          height:300px;
+          opacity: .90;
+    }
+</style>

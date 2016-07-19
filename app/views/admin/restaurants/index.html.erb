@@ -1,0 +1,33 @@
+<%- model_class = Restaurant -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:title) %></th>
+      <th><%= model_class.human_attribute_name(:address) %></th>
+      <th><%= model_class.human_attribute_name(:properties) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @restaurants.each do |restaurant| %>
+      <tr>
+        <td><%= link_to restaurant.id, admin_restaurant_path(restaurant) %></td>
+        <td><%= restaurant.title %></td>
+        <td><%= restaurant.address %></td>
+        <td>
+        <% restaurant.properties.each do |key, value| %>
+          <p><%= key %> : <%= value %></p>
+        <% end %></td>
+        <td><%= link_to "Edit", admin_restaurant_path(restaurant), :class => 'btn btn-warning btn-sm' %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_admin_restaurant_path,
+            :class => 'btn btn-primary' %>
